@@ -1,22 +1,21 @@
 ---
-- name: Create a change request
-  servicenow.servicenow.snow_record:
-    state: present
-    table: change_request
-    username: "{{ snow_credentials.username | default(snow_username, true)}}"
-    password: "{{ snow_credentials.password | default(snow_password, true)}}"
-    instance: "{{ snow_credentials.instance | default(snow_instance, true)}}"
-    data:
-      severity: "{{ change_request.severity }}"
-      priority: "{{ change_request.priority }}"
-      short_description: "GitOps Change: Update for {{ app_name }} on {{ target_clusters }}"
-      implementation_plan: "{{ change_request.implementation_plan }}"
-      justification: "{{ change_request.justification }}"
-      description: "{{ change_request.description }}"
-      risk_impact_analysis: "{{ change_request.risk_impact_analysis }}"
-      test_plan: "{{ change_request.test_plan }}"
-      start_date: "{{ ansible_date_time.iso8601 }}"
+- name: Create change request
+  servicenow.itsm.change_request:
+    instance:
+      host: "{{ snow_credentials.instance | default(snow_instance, true)}}"
+      username: "{{ snow_credentials.username | default(snow_username, true)}}"
+      password: "{{ snow_credentials.password | default(snow_password, true)}}"
+    type: standard
+    state: new
+    requested_by: some.user
+    short_description: "GitOps Change: Update for {{ app_name }} on {{ target_clusters }}"
+    description: "{{ change_request.description }}"
+    attachments:
+      - path: path/to/attachment.txt
+    priority: "{{ change_request.priority }}"
+    risk: low
+    impact: low
   register: new_incident
 
 - debug:
-    var: new_incident.record
+    var: new_incident
