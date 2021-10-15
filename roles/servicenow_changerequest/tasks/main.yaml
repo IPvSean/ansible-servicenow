@@ -10,8 +10,6 @@
     requested_by: some.user
     short_description: "GitOps Change: Update for {{ app_name }} on {{ target_clusters }}"
     description: "{{ change_request.description }}"
-    attachments:
-      - path: path/to/attachment.txt
     priority: "{{ change_request.priority }}"
     risk: low
     impact: low
