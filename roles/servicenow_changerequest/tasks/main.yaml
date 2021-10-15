@@ -7,7 +7,6 @@
       password: "{{ snow_credentials.password | default(snow_password, true)}}"
     type: standard
     state: new
-    requested_by: some.user
     short_description: "GitOps Change: Update for {{ app_name }} on {{ target_clusters }}"
     description: "{{ change_request.description }}"
     priority: "{{ change_request.priority }}"
